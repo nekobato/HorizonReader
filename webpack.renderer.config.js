@@ -48,8 +48,8 @@ let rendererConfig = {
         loader: 'vue-loader',
         options: {
           loaders: {
-            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-            scss: 'vue-style-loader!css-loader!sass-loader'
+            stylus: 'vue-style-loader!css-loader!stylus-loader',
+            pug: 'vue-html-loader!pug-loader'
           }
         }
       },
@@ -78,7 +78,7 @@ let rendererConfig = {
       template: './app/index.ejs',
       appModules: process.env.NODE_ENV !== 'production'
         ? path.resolve(__dirname, 'app/node_modules')
-        : false,
+        : false
     }),
     new webpack.NoEmitOnErrorsPlugin()
   ],

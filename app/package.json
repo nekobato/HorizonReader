@@ -1,6 +1,6 @@
 {
   "name": "dock-liner",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "work with oneline interface.",
   "main": "./dist/main.js",
   "dependencies": {
