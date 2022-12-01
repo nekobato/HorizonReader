@@ -12,7 +12,7 @@ jobs:
   # refer: https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#enable-auto-merge-on-a-pull-request
   dependabot:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' && github.event.review.state == 'approved' }}
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && github.event.review.state == 'approved' }}
     steps:
       - name: Dependabot metadata
         id: metadata
