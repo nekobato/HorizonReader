@@ -1,0 +1,246 @@
+:root {
+  color: #202124;
+  background: #f7f5ed;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.main-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 78px;
+  width: 100vw;
+  height: 100vh;
+  background: #f4f1e8;
+}
+
+.browser-webview {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+.main-toolbar {
+  display: grid;
+  grid-template-columns: 6px 30px 30px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 78px;
+  height: 100%;
+  border-left: 1px solid rgba(32, 33, 36, 0.13);
+  background: #f7f5ed;
+  -webkit-app-region: drag;
+}
+
+.main-drag-handle {
+  width: 6px;
+  height: 42px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, #7c8a5f 0, #7c8a5f 4px, transparent 4px, transparent 9px);
+  background-size: 6px 9px;
+  opacity: 0.62;
+  cursor: grab;
+  -webkit-app-region: drag;
+}
+
+.controller-shell {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  padding: 10px 12px 10px 10px;
+  border: 1px solid rgba(32, 33, 36, 0.16);
+  background: #fbfaf6;
+  box-shadow: 0 10px 28px rgba(24, 30, 41, 0.18);
+  -webkit-app-region: drag;
+}
+
+.controller-toolbar {
+  display: grid;
+  grid-template-columns: 18px 34px 34px minmax(0, 1fr) 34px 34px 34px 34px 34px 34px;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 54px;
+}
+
+.controller-grip {
+  width: 6px;
+  height: 42px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, #8f9a62 0, #8f9a62 4px, transparent 4px, transparent 9px);
+  background-size: 6px 9px;
+  opacity: 0.55;
+}
+
+.icon-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid rgba(32, 33, 36, 0.16);
+  border-radius: 6px;
+  color: #22302c;
+  background: #fffdf8;
+  cursor: default;
+  -webkit-app-region: no-drag;
+}
+
+.icon-button:hover:not(:disabled) {
+  border-color: rgba(15, 118, 110, 0.38);
+  background: #eef7f4;
+}
+
+.icon-button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.icon-button:disabled {
+  color: #9ca3af;
+  background: #f0eee7;
+}
+
+.icon-button.is-active {
+  color: #ffffff;
+  border-color: #0f766e;
+  background: #0f766e;
+}
+
+.icon-button.danger:hover {
+  color: #ffffff;
+  border-color: #b42318;
+  background: #b42318;
+}
+
+.icon-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.url-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 34px;
+  min-width: 0;
+  padding: 0 12px;
+  border: 1px solid rgba(32, 33, 36, 0.18);
+  border-radius: 6px;
+  color: #202124;
+  background: #ffffff;
+  outline: none;
+  -webkit-app-region: no-drag;
+}
+
+.url-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
+}
+
+.history-panel {
+  min-height: 0;
+  margin-top: 8px;
+  padding-top: 8px;
+  overflow-y: auto;
+  border-top: 1px solid rgba(32, 33, 36, 0.13);
+  -webkit-app-region: no-drag;
+}
+
+.history-list {
+  display: grid;
+  gap: 4px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.history-row {
+  min-width: 0;
+}
+
+.history-item {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 6px;
+  color: #202124;
+  text-align: left;
+  background: transparent;
+  cursor: default;
+}
+
+.history-item:hover,
+.history-item:focus-visible {
+  background: #eef7f4;
+  outline: none;
+}
+
+.history-title,
+.history-meta,
+.history-selection {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-title {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.history-time {
+  font-size: 11px;
+  color: #52615c;
+}
+
+.history-meta,
+.history-selection,
+.history-empty {
+  font-size: 11px;
+  color: #66736f;
+}
+
+.history-selection {
+  grid-column: 1 / -1;
+}
+
+.history-empty {
+  margin: 18px 0 0;
+  text-align: center;
+}

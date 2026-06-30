@@ -1,10 +1,8 @@
-.DS_Store
-dist/electron/*
-dist/web/*
-build/*
-!build/icons
 node_modules/
-npm-debug.log
-npm-debug.log.*
-thumbs.db
-!.gitkeep
+out/
+dist/
+release/
+coverage/
+.playwright-mcp/
+*.tsbuildinfo
+.DS_Store
