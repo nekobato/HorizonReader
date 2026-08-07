@@ -4,24 +4,58 @@ on:
     types:
       - submitted
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 jobs:
-  # refer: https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#enable-auto-merge-on-a-pull-request
-  dependabot:
+  metadata:
+    name: Read Dependabot metadata
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && github.event.review.state == 'approved' }}
+    timeout-minutes: 5
+    if: ${{ github.repository == 'nekobato/HorizonReader' && github.event.pull_request.user.login == 'dependabot[bot]' && github.event.review.state == 'approved' }}
+    permissions:
+      pull-requests: read
+    outputs:
+      update-type: ${{ steps.metadata.outputs.update-type }}
     steps:
       - name: Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@v1.3.5
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
         with:
-          github-token: '${{ secrets.GITHUB_TOKEN }}'
-      - name: Run auto-merge for Dependabot PRs
-        if: ${{steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'}}
+          github-token: ${{ github.token }}
+
+  enable-auto-merge:
+    name: Enable auto-merge
+    needs: metadata
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ needs.metadata.outputs.update-type == 'version-update:semver-patch' || needs.metadata.outputs.update-type == 'version-update:semver-minor' }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Check repository auto-merge setting
+        id: repository
+        run: |
+          auto_merge_enabled="$(gh api "repos/${GITHUB_REPOSITORY}" --jq '.allow_auto_merge')"
+
+          case "$auto_merge_enabled" in
+            true | false) ;;
+            *)
+              echo "::error::Unexpected allow_auto_merge value: $auto_merge_enabled"
+              exit 1
+              ;;
+          esac
+
+          echo "auto-merge-enabled=$auto_merge_enabled" >> "$GITHUB_OUTPUT"
+
+          if [[ "$auto_merge_enabled" == "false" ]]; then
+            echo "::notice::Repository auto-merge is disabled; leaving the pull request open."
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Enable auto-merge for Dependabot PR
+        if: ${{ steps.repository.outputs.auto-merge-enabled == 'true' }}
         run: gh pr merge --auto --merge "$PR_URL"
         env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.ACCESS_TOKEN}}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ github.token }}
