@@ -169,6 +169,7 @@ const handleIpcMessage = async (event: Event): Promise<void> => {
 
   if (message.channel === 'oneline:restore-applied') {
     pendingRestore.value = null
+    await reportStatus()
   }
 }
 
