@@ -89,6 +89,27 @@ const setup = () => {
 }
 
 describe('history restore status', () => {
+  it('waits for dom-ready when Electron emits loading before the guest APIs exist', async () => {
+    const { webview, methods, reportWebviewStatus } = setup()
+    Object.assign(webview, {
+      getURL: () => {
+        throw new Error(
+          'The WebView must be attached to the DOM and the dom-ready event emitted before this method can be called.'
+        )
+      }
+    })
+    webview.dispatchEvent(new Event('did-start-loading'))
+    await flushPromises()
+    expect(reportWebviewStatus).not.toHaveBeenCalled()
+
+    Object.assign(webview, { getURL: methods.getURL })
+    webview.dispatchEvent(new Event('dom-ready'))
+    await flushPromises()
+    expect(reportWebviewStatus).toHaveBeenCalledWith(
+      expect.objectContaining({ currentUrl: 'https://reading.test/article' })
+    )
+  })
+
   it('clears loading after restoring the already displayed URL without reloading it', async () => {
     const { store, methods, reportWebviewStatus, requestRestore, restoreApplied } = setup()
     await requestRestore()

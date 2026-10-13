@@ -49,12 +49,25 @@ const reportStatus = async (): Promise<void> => {
     return
   }
 
-  const status: WebviewStatus = {
-    currentUrl: webview.getURL() || browserStore.state.currentUrl,
-    title: webview.getTitle() || webview.getURL() || 'Oneline Browser',
-    canGoBack: webview.canGoBack(),
-    canGoForward: webview.canGoForward(),
-    isLoading: webview.isLoading()
+  let status: WebviewStatus
+  try {
+    status = {
+      currentUrl: webview.getURL() || browserStore.state.currentUrl,
+      title: webview.getTitle() || webview.getURL() || 'Oneline Browser',
+      canGoBack: webview.canGoBack(),
+      canGoForward: webview.canGoForward(),
+      isLoading: webview.isLoading()
+    }
+  } catch (error) {
+    // Electron can emit the first loading event before the guest is ready.
+    // The dom-ready handler retries once its navigation APIs are available.
+    if (
+      error instanceof Error &&
+      error.message.includes('The WebView must be attached to the DOM')
+    ) {
+      return
+    }
+    throw error
   }
 
   await browserStore.reportWebviewStatus(status)
@@ -193,6 +206,7 @@ const handleNavigation = async (_event: WebviewNavigationEvent): Promise<void> =
  * Synchronizes page preload state after the embedded document is ready.
  */
 const handleDomReady = (): void => {
+  void reportStatus()
   syncSelectionModeToWebview()
   applyPendingRestore()
 }
