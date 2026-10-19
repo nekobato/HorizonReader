@@ -90,7 +90,14 @@ const run = async () => {
 
     for (const height of [28, 36, 44, 72, 96]) {
       window.setContentSize(960, height)
-      const layout = await window.webContents.executeJavaScript(measure)
+      // Host and guest resizing crosses Chromium processes and finishes asynchronously.
+      const deadline = Date.now() + 2000
+      let layout
+      do {
+        layout = await window.webContents.executeJavaScript(measure)
+        if (layout.height === height && layout.guestHeight === height) break
+        await new Promise((resolve) => setTimeout(resolve, 10))
+      } while (Date.now() < deadline)
       assert.equal(layout.height, height)
       assert.equal(layout.guestHeight, height, `Guest viewport must fit a ${height}px Main`)
       for (const name of ['shell', 'webview', 'toolbar']) {
