@@ -12,7 +12,7 @@ import { getDefaultHomeUrl, normalizeNavigationInput } from '@shared/url'
 
 let fallbackState: BrowserState = {
   currentUrl: getDefaultHomeUrl(),
-  title: 'Oneline Browser',
+  title: 'Horizon Reader',
   canGoBack: false,
   canGoForward: false,
   isLoading: false,

@@ -53,7 +53,7 @@ const reportStatus = async (): Promise<void> => {
   try {
     status = {
       currentUrl: webview.getURL() || browserStore.state.currentUrl,
-      title: webview.getTitle() || webview.getURL() || 'Oneline Browser',
+      title: webview.getTitle() || webview.getURL() || 'Horizon Reader',
       canGoBack: webview.canGoBack(),
       canGoForward: webview.canGoForward(),
       isLoading: webview.isLoading()
@@ -285,7 +285,7 @@ onUnmounted(() => {
       webpreferences="contextIsolation=yes,nodeIntegration=no,sandbox=yes"
     />
 
-    <nav class="main-toolbar" aria-label="Oneline browser controls">
+    <nav class="main-toolbar" aria-label="Horizon Reader controls">
       <div class="main-drag-handle" title="Move window" aria-hidden="true"></div>
       <button class="icon-button" type="button" title="Controller" @click="toggleController">
         <Icon icon="mingcute:remote-control-line" />
