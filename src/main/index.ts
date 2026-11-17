@@ -101,7 +101,7 @@ const createInitialUpdateState = (): UpdateState => {
 
 let browserState: BrowserState = {
   currentUrl: normalizeNavigationInput(''),
-  title: 'Oneline Browser',
+  title: 'Horizon Reader',
   canGoBack: false,
   canGoForward: false,
   isLoading: false,
@@ -115,6 +115,7 @@ let browserState: BrowserState = {
   update: createInitialUpdateState()
 }
 
+// Preserve the existing user-data identity; changing this name needs a data migration review.
 app.setName('Oneline Browser')
 
 /**
@@ -675,7 +676,7 @@ const configureAutoUpdater = (): AppUpdater => {
       phase: 'not-available',
       availableVersion: null,
       percent: null,
-      message: 'Oneline Browser is up to date.',
+      message: 'Horizon Reader is up to date.',
       checkedAt: new Date().toISOString()
     })
   })

@@ -1,6 +1,6 @@
 {
   "name": "oneline-browser",
-  "productName": "Oneline Browser",
+  "productName": "Horizon Reader",
   "version": "0.1.0",
   "description": "A compact Electron browser for reading one line of web text at a time.",
   "author": "nekobato",
@@ -21,7 +21,7 @@
   },
   "build": {
     "appId": "com.nekobato.oneline-browser",
-    "productName": "Oneline Browser",
+    "productName": "Horizon Reader",
     "asar": true,
     "directories": {
       "output": "release"
@@ -32,21 +32,21 @@
     ],
     "mac": {
       "category": "public.app-category.utilities",
-      "artifactName": "Oneline-Browser-${version}-${arch}.${ext}",
+      "artifactName": "Horizon-Reader-${version}-${arch}.${ext}",
       "target": [
         "dmg",
         "zip"
       ],
       "extendInfo": {
-        "CFBundleName": "Oneline Browser",
-        "CFBundleDisplayName": "Oneline Browser"
+        "CFBundleName": "Horizon Reader",
+        "CFBundleDisplayName": "Horizon Reader"
       }
     },
     "publish": [
       {
         "provider": "github",
         "owner": "nekobato",
-        "repo": "OnelineBrowser",
+        "repo": "HorizonReader",
         "releaseType": "release"
       }
     ]

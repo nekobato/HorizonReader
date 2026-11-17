@@ -16,7 +16,7 @@ import { getOnelineApi } from '../electron-api'
  */
 const createFallbackState = (): BrowserState => ({
   currentUrl: getDefaultHomeUrl(),
-  title: 'Oneline Browser',
+  title: 'Horizon Reader',
   canGoBack: false,
   canGoForward: false,
   isLoading: false,
